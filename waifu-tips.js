@@ -12,96 +12,6 @@
 
     let t;
 
-    function showMessage(text, timeout, priority) {
-        if (!text || (sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > priority)) return;
-        if (messageTimer) {
-            clearTimeout(messageTimer);
-            messageTimer = null;
-        }
-        text = randomSelection(text);
-        sessionStorage.setItem("waifu-text", priority);
-        const tips = document.getElementById("waifu-tips");
-        tips.innerHTML = text;
-        tips.classList.add("waifu-tips-active");
-        messageTimer = setTimeout(() => {
-            sessionStorage.removeItem("waifu-text");
-            tips.classList.remove("waifu-tips-active");
-        }, timeout);
-    }
-
-    function o(o, s, n) {
-        if (!o || sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > n) return;
-        t && (clearTimeout(t), t = null), o = e(o), sessionStorage.setItem("waifu-text", n);
-        const i = document.getElementById("waifu-tips");
-        i.innerHTML = o, i.classList.add("waifu-tips-active"), t = setTimeout((() => {
-            sessionStorage.removeItem("waifu-text"), i.classList.remove("waifu-tips-active")
-        }), s)
-    }
-
-    function randomSelection(obj) {
-        return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj;
-    }
-
-    // 检测用户活动状态，并在空闲时显示消息
-    let userAction = false,
-        userActionTimer,
-        messageTimer,
-        messageArray = ["好久不见，日子过得好快呢……", "大坏蛋！你都多久没理人家了呀，嘤嘤嘤～", "嗨～快来逗我玩吧！", "拿小拳拳锤你胸口！", "记得把小家加入 Adblock 白名单哦！"];
-    window.addEventListener("mousemove", () => userAction = true);
-    window.addEventListener("keydown", () => userAction = true);
-    setInterval(() => {
-        if (userAction) {
-            userAction = false;
-            clearInterval(userActionTimer);
-            userActionTimer = null;
-        } else if (!userActionTimer) {
-            userActionTimer = setInterval(() => {
-                showMessage(randomSelection(messageArray), 6000, 9);
-            }, 20000);
-        }
-    }, 1000);
-
-    (function registerEventListener() {
-        const devtools = () => {
-        };
-        console.log("%c", devtools);
-        devtools.toString = () => {
-            showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
-        };
-        window.addEventListener("copy", () => {
-            showMessage("你都复制了些什么呀，转载要记得加上出处哦！", 6000, 9);
-        });
-        window.addEventListener("visibilitychange", () => {
-            if (!document.hidden) showMessage("哇，你终于回来了～", 6000, 9);
-        });
-    })();
-
-    (function welcomeMessage() {
-        let text;
-        if (location.pathname === "/") { // 如果是主页
-            const now = new Date().getHours();
-            if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
-            else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
-            else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
-            else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
-            else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
-            else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
-            else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
-            else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
-        } else if (document.referrer !== "") {
-            const referrer = new URL(document.referrer),
-                domain = referrer.hostname.split(".")[1];
-            if (location.hostname === referrer.hostname) text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-            else if (domain === "baidu") text = `Hello！来自 百度搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&wd=")[1].split("&")[0]}</span> 找到的我吗？`;
-            else if (domain === "so") text = `Hello！来自 360搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&q=")[1].split("&")[0]}</span> 找到的我吗？`;
-            else if (domain === "google") text = `Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-            else text = `Hello！来自 <span>${referrer.hostname}</span> 的朋友`;
-        } else {
-            text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-        }
-        showMessage(text, 7000, 8);
-    })();
-
     class s {
         constructor(e) {
             let {
@@ -350,4 +260,94 @@
             return false;
         });
     }
+
+    function showMessage(text, timeout, priority) {
+        if (!text || (sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > priority)) return;
+        if (messageTimer) {
+            clearTimeout(messageTimer);
+            messageTimer = null;
+        }
+        text = randomSelection(text);
+        sessionStorage.setItem("waifu-text", priority);
+        const tips = document.getElementById("waifu-tips");
+        tips.innerHTML = text;
+        tips.classList.add("waifu-tips-active");
+        messageTimer = setTimeout(() => {
+            sessionStorage.removeItem("waifu-text");
+            tips.classList.remove("waifu-tips-active");
+        }, timeout);
+    }
+
+    function o(o, s, n) {
+        if (!o || sessionStorage.getItem("waifu-text") && sessionStorage.getItem("waifu-text") > n) return;
+        t && (clearTimeout(t), t = null), o = e(o), sessionStorage.setItem("waifu-text", n);
+        const i = document.getElementById("waifu-tips");
+        i.innerHTML = o, i.classList.add("waifu-tips-active"), t = setTimeout((() => {
+            sessionStorage.removeItem("waifu-text"), i.classList.remove("waifu-tips-active")
+        }), s)
+    }
+
+    function randomSelection(obj) {
+        return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj;
+    }
+
+    // 检测用户活动状态，并在空闲时显示消息
+    let userAction = false,
+        userActionTimer,
+        messageTimer,
+        messageArray = ["好久不见，日子过得好快呢……", "大坏蛋！你都多久没理人家了呀，嘤嘤嘤～", "嗨～快来逗我玩吧！", "拿小拳拳锤你胸口！", "记得把小家加入 Adblock 白名单哦！"];
+    window.addEventListener("mousemove", () => userAction = true);
+    window.addEventListener("keydown", () => userAction = true);
+    setInterval(() => {
+        if (userAction) {
+            userAction = false;
+            clearInterval(userActionTimer);
+            userActionTimer = null;
+        } else if (!userActionTimer) {
+            userActionTimer = setInterval(() => {
+                showMessage(randomSelection(messageArray), 6000, 9);
+            }, 20000);
+        }
+    }, 1000);
+
+    (function registerEventListener() {
+        const devtools = () => {
+        };
+        console.log("%c", devtools);
+        devtools.toString = () => {
+            showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
+        };
+        window.addEventListener("copy", () => {
+            showMessage("你都复制了些什么呀，转载要记得加上出处哦！", 6000, 9);
+        });
+        window.addEventListener("visibilitychange", () => {
+            if (!document.hidden) showMessage("哇，你终于回来了～", 6000, 9);
+        });
+    })();
+
+    (function welcomeMessage() {
+        let text;
+        if (location.pathname === "/") { // 如果是主页
+            const now = new Date().getHours();
+            if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
+            else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
+            else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
+            else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
+            else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
+            else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
+            else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
+            else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
+        } else if (document.referrer !== "") {
+            const referrer = new URL(document.referrer),
+                domain = referrer.hostname.split(".")[1];
+            if (location.hostname === referrer.hostname) text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+            else if (domain === "baidu") text = `Hello！来自 百度搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&wd=")[1].split("&")[0]}</span> 找到的我吗？`;
+            else if (domain === "so") text = `Hello！来自 360搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&q=")[1].split("&")[0]}</span> 找到的我吗？`;
+            else if (domain === "google") text = `Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+            else text = `Hello！来自 <span>${referrer.hostname}</span> 的朋友`;
+        } else {
+            text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+        }
+        showMessage(text, 7000, 8);
+    })();
 }();
