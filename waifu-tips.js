@@ -53,45 +53,47 @@
         }
     })();
 
-    document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
-        localStorage.setItem("Live2DPlace", "right");
-        showMessage("耶，可以去右边了呢～。", 2000, 11);
-        document.getElementById("waifu").style.bottom = "-500px";
-        document.getElementById("waifu-toggle").style.display = "none";
-        setTimeout(() => {
-            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
-            document.getElementById("waifu").style.bottom = "0px";
-            document.getElementById("live2d-go-right").style.display = "none";
-            document.getElementById("live2d-go-left").style.display = "block";
-        }, 3000);
-        setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
-    });
-    document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
-        localStorage.setItem("Live2DPlace", "left");
-        showMessage("耶，可以去左边了呢～。", 2000, 11);
-        document.getElementById("waifu").style.bottom = "-500px";
-        document.getElementById("waifu-toggle").style.display = "none";
-        setTimeout(() => {
-            document.getElementById("live2d_css").href = live2d_path + "waifu.css";
-            document.getElementById("waifu").style.bottom = "0px";
-            document.getElementById("live2d-go-left").style.display = "none";
-            document.getElementById("live2d-go-right").style.display = "block";
-        }, 3000);
-        setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
-    });
+    (function registerEventListener() {
+        document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
+            localStorage.setItem("Live2DPlace", "right");
+            showMessage("耶，可以去右边了呢～。", 2000, 11);
+            document.getElementById("waifu").style.bottom = "-500px";
+            document.getElementById("waifu-toggle").style.display = "none";
+            setTimeout(() => {
+                document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+                document.getElementById("waifu").style.bottom = "0px";
+                document.getElementById("live2d-go-right").style.display = "none";
+                document.getElementById("live2d-go-left").style.display = "block";
+            }, 3000);
+            setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
+        });
+        document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
+            localStorage.setItem("Live2DPlace", "left");
+            showMessage("耶，可以去左边了呢～。", 2000, 11);
+            document.getElementById("waifu").style.bottom = "-500px";
+            document.getElementById("waifu-toggle").style.display = "none";
+            setTimeout(() => {
+                document.getElementById("live2d_css").href = live2d_path + "waifu.css";
+                document.getElementById("waifu").style.bottom = "0px";
+                document.getElementById("live2d-go-left").style.display = "none";
+                document.getElementById("live2d-go-right").style.display = "block";
+            }, 3000);
+            setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
+        });
 
-    const devtools = () => {
-    };
-    console.log("%c", devtools);
-    devtools.toString = () => {
-        showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
-    };
-    window.addEventListener("copy", () => {
-        showMessage("你都复制了些什么呀，转载要记得加上出处哦！", 6000, 9);
-    });
-    window.addEventListener("visibilitychange", () => {
-        if (!document.hidden) showMessage("哇，你终于回来了～", 6000, 9);
-    });
+        const devtools = () => {
+        };
+        console.log("%c", devtools);
+        devtools.toString = () => {
+            showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
+        };
+        window.addEventListener("copy", () => {
+            showMessage("你都复制了些什么呀，转载要记得加上出处哦！", 6000, 9);
+        });
+        window.addEventListener("visibilitychange", () => {
+            if (!document.hidden) showMessage("哇，你终于回来了～", 6000, 9);
+        });
+    })();
 
     (function welcomeMessage() {
         let text;
@@ -118,19 +120,6 @@
         }
         showMessage(text, 7000, 8);
     })();
-
-    function showHitokoto() {
-        // 增加 hitokoto.cn 的 API
-        fetch("https://api.kcn3388.club/hitokoto?c=a&c=b&c=c")
-            .then(response => response.json())
-            .then(result => {
-                const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
-                showMessage(result.hitokoto, 6000, 9);
-                setTimeout(() => {
-                    showMessage(text, 4000, 9);
-                }, 6000);
-            });
-    }
 
     class s {
         constructor(e) {
