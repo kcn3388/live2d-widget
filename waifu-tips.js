@@ -12,6 +12,7 @@
 
     let t;
 
+
     class s {
         constructor(e) {
             let {
@@ -112,7 +113,6 @@
             callback: () => {
                 document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
                     localStorage.setItem("Live2DPlace", "right");
-                    showMessage("耶，可以去右边了呢～。", 2000, 11);
                     document.getElementById("waifu").style.bottom = "-500px";
                     document.getElementById("waifu-toggle").style.display = "none";
                     setTimeout(() => {
@@ -125,7 +125,6 @@
                 });
                 document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
                     localStorage.setItem("Live2DPlace", "left");
-                    showMessage("耶，可以去左边了呢～。", 2000, 11);
                     document.getElementById("waifu").style.bottom = "-500px";
                     document.getElementById("waifu-toggle").style.display = "none";
                     setTimeout(() => {
