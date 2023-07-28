@@ -270,7 +270,6 @@
         text = randomSelection(text);
         sessionStorage.setItem("waifu-text", priority);
         const tips = document.getElementById("waifu-tips");
-        tips.innerHTML = text;
         tips.classList.add("waifu-tips-active");
         messageTimer = setTimeout(() => {
             sessionStorage.removeItem("waifu-text");
