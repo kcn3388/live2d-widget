@@ -21,6 +21,117 @@
         }), s)
     }
 
+    function randomSelection(obj) {
+        return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj;
+    }
+
+    // 检测用户活动状态，并在空闲时显示消息
+    let userAction = false,
+        userActionTimer,
+        messageTimer,
+        messageArray = ["好久不见，日子过得好快呢……", "大坏蛋！你都多久没理人家了呀，嘤嘤嘤～", "嗨～快来逗我玩吧！", "拿小拳拳锤你胸口！", "记得把小家加入 Adblock 白名单哦！"];
+    window.addEventListener("mousemove", () => userAction = true);
+    window.addEventListener("keydown", () => userAction = true);
+    setInterval(() => {
+        if (userAction) {
+            userAction = false;
+            clearInterval(userActionTimer);
+            userActionTimer = null;
+        } else if (!userActionTimer) {
+            userActionTimer = setInterval(() => {
+                showMessage(randomSelection(messageArray), 6000, 9);
+            }, 20000);
+        }
+    }, 1000);
+
+    (function () { // 根据位置加载
+        if (localStorage.getItem("Live2DPlace") === "left") {
+            document.getElementById("live2d-go-left").style.display = "none";
+        } else if (localStorage.getItem("Live2DPlace") === "right") {
+            document.getElementById("live2d-go-right").style.display = "none";
+            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+        }
+    })();
+
+    document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
+        localStorage.setItem("Live2DPlace", "right");
+        showMessage("耶，可以去右边了呢～。", 2000, 11);
+        document.getElementById("waifu").style.bottom = "-500px";
+        document.getElementById("waifu-toggle").style.display = "none";
+        setTimeout(() => {
+            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+            document.getElementById("waifu").style.bottom = "0px";
+            document.getElementById("live2d-go-right").style.display = "none";
+            document.getElementById("live2d-go-left").style.display = "block";
+        }, 3000);
+        setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
+    });
+    document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
+        localStorage.setItem("Live2DPlace", "left");
+        showMessage("耶，可以去左边了呢～。", 2000, 11);
+        document.getElementById("waifu").style.bottom = "-500px";
+        document.getElementById("waifu-toggle").style.display = "none";
+        setTimeout(() => {
+            document.getElementById("live2d_css").href = live2d_path + "waifu.css";
+            document.getElementById("waifu").style.bottom = "0px";
+            document.getElementById("live2d-go-left").style.display = "none";
+            document.getElementById("live2d-go-right").style.display = "block";
+        }, 3000);
+        setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
+    });
+
+    const devtools = () => {
+    };
+    console.log("%c", devtools);
+    devtools.toString = () => {
+        showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
+    };
+    window.addEventListener("copy", () => {
+        showMessage("你都复制了些什么呀，转载要记得加上出处哦！", 6000, 9);
+    });
+    window.addEventListener("visibilitychange", () => {
+        if (!document.hidden) showMessage("哇，你终于回来了～", 6000, 9);
+    });
+
+    (function welcomeMessage() {
+        let text;
+        if (location.pathname === "/") { // 如果是主页
+            const now = new Date().getHours();
+            if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
+            else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
+            else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
+            else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
+            else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
+            else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
+            else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
+            else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
+        } else if (document.referrer !== "") {
+            const referrer = new URL(document.referrer),
+                domain = referrer.hostname.split(".")[1];
+            if (location.hostname === referrer.hostname) text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+            else if (domain === "baidu") text = `Hello！来自 百度搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&wd=")[1].split("&")[0]}</span> 找到的我吗？`;
+            else if (domain === "so") text = `Hello！来自 360搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&q=")[1].split("&")[0]}</span> 找到的我吗？`;
+            else if (domain === "google") text = `Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+            else text = `Hello！来自 <span>${referrer.hostname}</span> 的朋友`;
+        } else {
+            text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
+        }
+        showMessage(text, 7000, 8);
+    })();
+
+    function showHitokoto() {
+        // 增加 hitokoto.cn 的 API
+        fetch("https://api.kcn3388.club/hitokoto?c=a&c=b&c=c")
+            .then(response => response.json())
+            .then(result => {
+                const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
+                showMessage(result.hitokoto, 6000, 9);
+                setTimeout(() => {
+                    showMessage(text, 4000, 9);
+                }, 6000);
+            });
+    }
+
     class s {
         constructor(e) {
             let {
@@ -229,5 +340,13 @@
         })), localStorage.getItem("waifu-display") && Date.now() - localStorage.getItem("waifu-display") <= 864e5 ? (o.setAttribute("first-time", !0), setTimeout((() => {
             o.classList.add("waifu-toggle-active")
         }), 0)) : i(e)
+        $("#live2d").mousedown(function (e) {
+            if (e.which == 3) {
+                showMessage("秘密通道<br/><a href=\"https://cloudreve.kcn3388.club\">网盘&nbsp;&nbsp;</a><a href=\"https://xianbai.me/learn-md/index.html\">MD&nbsp;&nbsp;</a><a href=\"https://github.com/kcn3388\">Gay♂hub&nbsp;&nbsp;</a><a href=\"https://kcn3388.com/editor.html\">编辑&nbsp;&nbsp;</a><a href=\"https://oneindex.kcn3388.club\">OneDrive&nbsp;&nbsp;</a>", 5000, 10);
+            }
+        });
+        $("#live2d").bind("contextmenu", function (e) {
+            return false;
+        });
     }
 }();
