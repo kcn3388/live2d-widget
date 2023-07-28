@@ -1,4 +1,4 @@
-/*
+/*!
  * Live2D Widget
  * https://github.com/stevenjoezhang/live2d-widget
  */
@@ -60,14 +60,14 @@ function loadWidget(config) {
 		}
 	}, 1000);
 
-    (function () { // 根据位置加载
-        if (localStorage.getItem("Live2DPlace") === "left") {
-            document.getElementById("live2d-go-left").style.display = "none";
-        } else if (localStorage.getItem("Live2DPlace") === "right") {
-            document.getElementById("live2d-go-right").style.display = "none";
-            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
-        }
-    })();
+	(function () { // 根据位置加载
+		if (localStorage.getItem("Live2DPlace") === "left") {
+			document.getElementById("live2d-go-left").style.display = "none";
+		} else if (localStorage.getItem("Live2DPlace") === "right") {
+			document.getElementById("live2d-go-right").style.display = "none";
+			document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+		}
+	})();
 
 	(function registerEventListener() {
 		document.querySelector("#waifu-tool .fa-comment").addEventListener("click", showHitokoto);
@@ -100,7 +100,7 @@ function loadWidget(config) {
 				document.getElementById("waifu-toggle").classList.add("waifu-toggle-active");
 			}, 3000);
 		});
-		
+
 		document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
 			localStorage.setItem("Live2DPlace", "right");
 			showMessage("耶，可以去右边了呢～。", 2000, 11);
@@ -112,9 +112,9 @@ function loadWidget(config) {
 				document.getElementById("live2d-go-right").style.display = "none";
 				document.getElementById("live2d-go-left").style.display = "block";
 			}, 3000);
-			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"',6000);
+			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
 		});
-                document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
+		document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
 			localStorage.setItem("Live2DPlace", "left");
 			showMessage("耶，可以去左边了呢～。", 2000, 11);
 			document.getElementById("waifu").style.bottom = "-500px";
@@ -125,10 +125,10 @@ function loadWidget(config) {
 				document.getElementById("live2d-go-left").style.display = "none";
 				document.getElementById("live2d-go-right").style.display = "block";
 			}, 3000);
-			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"',6000);
+			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"', 6000);
 		});
-		
-		const devtools = () => {};
+
+		const devtools = () => { };
 		console.log("%c", devtools);
 		devtools.toString = () => {
 			showMessage("哈哈，你打开了控制台，是想要看看我的小秘密吗？", 6000, 9);
@@ -239,14 +239,14 @@ function loadWidget(config) {
 					}
 				});
 			});
-			$("#live2d").mousedown(function(e) {
-				if(e.which==3){
-				showMessage("秘密通道<br/><a href=\"https://cloudreve.kcn3388.club\">网盘&nbsp;&nbsp;</a><a href=\"https://xianbai.me/learn-md/index.html\">MD&nbsp;&nbsp;</a><a href=\"https://github.com/kcn3388\">Gay♂hub&nbsp;&nbsp;</a><a href=\"https://kcn3388.com/editor.html\">编辑&nbsp;&nbsp;</a><a href=\"https://oneindex.kcn3388.club\">OneDrive&nbsp;&nbsp;</a>",5000,10);
-				}
-			});
-			$("#live2d").bind("contextmenu", function(e) {
-				return false;
-			});
+		$("#live2d").mousedown(function (e) {
+			if (e.which == 3) {
+				showMessage("秘密通道<br/><a href=\"https://cloudreve.kcn3388.club\">网盘&nbsp;&nbsp;</a><a href=\"https://xianbai.me/learn-md/index.html\">MD&nbsp;&nbsp;</a><a href=\"https://github.com/kcn3388\">Gay♂hub&nbsp;&nbsp;</a><a href=\"https://kcn3388.com/editor.html\">编辑&nbsp;&nbsp;</a><a href=\"https://oneindex.kcn3388.club\">OneDrive&nbsp;&nbsp;</a>", 5000, 10);
+			}
+		});
+		$("#live2d").bind("contextmenu", function (e) {
+			return false;
+		});
 	})();
 
 	async function loadModelList() {
