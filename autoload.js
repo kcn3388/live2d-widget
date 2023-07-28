@@ -41,7 +41,7 @@ if (screen.width >= 768) {
 			waifuPath: live2d_path + "waifu-tips.json",
 			apiPath: "https://mysql.kcn3388.com/hexo-theme-obsidian/src/live2d_api/",
 // 			cdnPath: "https://mysql.kcn3388.com/hexo-theme-obsidian/src/live2d_api/"
-			tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
+			tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "movement", "quit"]
 		});
 	});
 }
