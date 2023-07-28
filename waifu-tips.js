@@ -44,18 +44,7 @@
         }
     }, 1000);
 
-    (function () { // 根据位置加载
-        if (localStorage.getItem("Live2DPlace") === "left") {
-            document.getElementById("live2d-go-left").style.display = "none";
-        } else if (localStorage.getItem("Live2DPlace") === "right") {
-            document.getElementById("live2d-go-right").style.display = "none";
-            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
-        }
-    })();
-
     (function registerEventListener() {
-
-
         const devtools = () => {
         };
         console.log("%c", devtools);
