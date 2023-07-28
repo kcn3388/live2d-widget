@@ -6,6 +6,7 @@
 function loadWidget(config) {
 	let { waifuPath, apiPath, cdnPath } = config;
 	let useCDN = false, modelList;
+	localStorage.setItem("Live2DPlace", "right");
 	if (typeof cdnPath === "string") {
 		useCDN = true;
 		if (!cdnPath.endsWith("/")) cdnPath += "/";
@@ -28,6 +29,8 @@ function loadWidget(config) {
 				<span class="fa fa-lg fa-camera-retro"></span>
 				<span class="fa fa-lg fa-info-circle"></span>
 				<span class="fa fa-lg fa-times"></span>
+				<span class="fa fa-lg fa-chevron-right" id="live2d-go-right"></span>
+                <span class="fa fa-lg fa-chevron-left" id="live2d-go-left"></span>
 			</div>
 		</div>`);
 	// https://stackoverflow.com/questions/24148403/trigger-css-transition-on-appended-element
@@ -56,6 +59,15 @@ function loadWidget(config) {
 			}, 20000);
 		}
 	}, 1000);
+
+    (function () { // 根据位置加载
+        if (localStorage.getItem("Live2DPlace") === "left") {
+            document.getElementById("live2d-go-left").style.display = "none";
+        } else if (localStorage.getItem("Live2DPlace") === "right") {
+            document.getElementById("live2d-go-right").style.display = "none";
+            document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+        }
+    })();
 
 	(function registerEventListener() {
 		document.querySelector("#waifu-tool .fa-comment").addEventListener("click", showHitokoto);
@@ -88,6 +100,34 @@ function loadWidget(config) {
 				document.getElementById("waifu-toggle").classList.add("waifu-toggle-active");
 			}, 3000);
 		});
+		
+		document.querySelector("#waifu-tool .fa-chevron-right").addEventListener("click", () => { // 切换看板娘位置（左 => 右）
+			localStorage.setItem("Live2DPlace", "right");
+			showMessage("耶，可以去右边了呢～。", 2000, 11);
+			document.getElementById("waifu").style.bottom = "-500px";
+			document.getElementById("waifu-toggle").style.display = "none";
+			setTimeout(() => {
+				document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
+				document.getElementById("waifu").style.bottom = "0px";
+				document.getElementById("live2d-go-right").style.display = "none";
+				document.getElementById("live2d-go-left").style.display = "block";
+			}, 3000);
+			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"',6000);
+		});
+                document.querySelector("#waifu-tool .fa-chevron-left").addEventListener("click", () => { // 切换看板娘位置（左 <= 右）
+			localStorage.setItem("Live2DPlace", "left");
+			showMessage("耶，可以去左边了呢～。", 2000, 11);
+			document.getElementById("waifu").style.bottom = "-500px";
+			document.getElementById("waifu-toggle").style.display = "none";
+			setTimeout(() => {
+				document.getElementById("live2d_css").href = live2d_path + "waifu.css";
+				document.getElementById("waifu").style.bottom = "0px";
+				document.getElementById("live2d-go-left").style.display = "none";
+				document.getElementById("live2d-go-right").style.display = "block";
+			}, 3000);
+			setTimeout('document.getElementById("waifu-toggle").style.display = "inline"',6000);
+		});
+		
 		const devtools = () => {};
 		console.log("%c", devtools);
 		devtools.toString = () => {
@@ -129,7 +169,7 @@ function loadWidget(config) {
 
 	function showHitokoto() {
 		// 增加 hitokoto.cn 的 API
-		fetch("https://v1.hitokoto.cn")
+		fetch("https://api.kcn3388.club/hitokoto?c=a&c=b&c=c")
 			.then(response => response.json())
 			.then(result => {
 				const text = `这句一言来自 <span>「${result.from}」</span>，是 <span>${result.creator}</span> 在 hitokoto.cn 投稿的。`;
@@ -198,6 +238,14 @@ function loadWidget(config) {
 						messageArray.push(text);
 					}
 				});
+			});
+			$("#live2d").mousedown(function(e) {
+				if(e.which==3){
+				showMessage("秘密通道<br/><a href=\"https://cloudreve.kcn3388.club\">网盘&nbsp;&nbsp;</a><a href=\"https://xianbai.me/learn-md/index.html\">MD&nbsp;&nbsp;</a><a href=\"https://github.com/kcn3388\">Gay♂hub&nbsp;&nbsp;</a><a href=\"https://kcn3388.com/editor.html\">编辑&nbsp;&nbsp;</a><a href=\"https://oneindex.kcn3388.club\">OneDrive&nbsp;&nbsp;</a>",5000,10);
+				}
+			});
+			$("#live2d").bind("contextmenu", function(e) {
+				return false;
 			});
 	})();
 
